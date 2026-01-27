@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class FaqCategory extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'sort_order',
+        'is_active',
+    ];
+
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class)->orderBy('sort_order');
+    }
+}
