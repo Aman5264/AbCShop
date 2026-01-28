@@ -2,7 +2,10 @@
 builder = "NIXPACKS"
 
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "nodejs"]
+nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "nodejs_20"]
+
+[phases.install]
+cmds = ["composer install --optimize-autoloader --no-dev", "npm install"]
 
 [phases.build]
-cmds = ["composer install", "npm install", "npm run build"]
+cmds = ["npm run build"]
