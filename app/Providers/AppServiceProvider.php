@@ -18,16 +18,25 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
-        \Illuminate\Support\Facades\Event::listen(
-            \Illuminate\Auth\Events\Login::class,
-            \App\Listeners\MergeGuestCart::class
-        );
+{
+    // ✅ Force HTTPS in production (Fixes Mixed Content on Railway)
+    if (app()->environment('production')) {
+        URL::forceScheme('https');
+    }
 
-        // Share Cart Count with main shop layouts only (prevents redundant queries on every partial)
-        \Illuminate\Support\Facades\View::composer(['components.shop-layout', 'components.navbar', 'components.account-layout'], function ($view) {
+    // Merge guest cart on login
+    Event::listen(
+        Login::class,
+        MergeGuestCart::class
+    );
+
+    // Share Cart Count with layouts
+    View::composer(
+        ['components.shop-layout', 'components.navbar', 'components.account-layout'],
+        function ($view) {
             $cartService = app(\App\Services\CartService::class);
             $view->with('cartCount', $cartService->count());
-        });
-    }
+        }
+    );
+}
 }
