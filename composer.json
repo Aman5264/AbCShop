@@ -10,6 +10,8 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-intl": "*",
+        "ext-zip": "*",
         "filament/filament": "^3.3",
         "flowframe/laravel-trend": "^0.4.0",
         "laravel/framework": "^11.0",
@@ -62,6 +64,11 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
             "@php artisan filament:upgrade"
+        ],
+        "post-install-cmd": [
+            "npm install",
+            "npm run build",
+            "@php artisan storage:link"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

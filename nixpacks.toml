@@ -7,8 +7,8 @@ nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "php82Extensi
 
 [phases.install]
 dependsOn = ["setup"]
-cmds = ["composer install --ignore-platform-reqs --optimize-autoloader --no-dev", "npm install"]
+cmds = ["composer install --ignore-platform-reqs --optimize-autoloader --no-dev"]
 
 [phases.build]
 dependsOn = ["install"]
-cmds = ["npm run build", "php artisan storage:link"]
+cmds = ["npm install", "npm run build", "php artisan storage:link"]
