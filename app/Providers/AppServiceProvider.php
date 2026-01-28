@@ -23,11 +23,11 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-{
-    // ✅ Force HTTPS in production (Fixes Mixed Content on Railway)
-    if (app()->environment('production')) {
-        URL::forceScheme('https');
-    }
+    {
+        // 🔒 Force HTTPS for all links when on Production or behind a Proxy
+        if (app()->environment('production') || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')) {
+            URL::forceScheme('https');
+        }
 
     // Merge guest cart on login
     Event::listen(
