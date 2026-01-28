@@ -36,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
     );
 
     // Share Cart Count with layouts
+    /* Temporarily disabled to debug 502 error
     View::composer(
         ['components.shop-layout', 'components.navbar', 'components.account-layout'],
         function ($view) {
@@ -43,5 +44,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with('cartCount', $cartService->count());
         }
     );
+    */
 }
 }
