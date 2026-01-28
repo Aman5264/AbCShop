@@ -17,7 +17,7 @@
              x-transition:leave-end="opacity-0 scale-95"
              class="absolute inset-0 w-full h-full">
             
-            <img src="{{ Storage::url($banner->image_url) }}" 
+            <img src="{{ Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url) }}" 
                  alt="{{ $banner->title }}" 
                  class="w-full h-full object-cover">
             
