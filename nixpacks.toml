@@ -1,14 +1,15 @@
 [variables]
 NIXPACKS_PHP_EXTENSIONS = "intl, zip, bcmath, pdo_mysql, gd"
 COMPOSER_INSTALL_FLAGS = "--ignore-platform-reqs --optimize-autoloader --no-dev"
+NIXPACKS_BUILD_CMD = "npm run build && php artisan storage:link"
 
 [phases.setup]
 nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "php82Extensions.bcmath", "nodejs_20"]
 
 [phases.install]
 dependsOn = ["setup"]
-cmds = ["composer install --ignore-platform-reqs --optimize-autoloader --no-dev"]
+cmds = ["composer install --ignore-platform-reqs --optimize-autoloader --no-dev", "npm install"]
 
 [phases.build]
 dependsOn = ["install"]
-cmds = ["npm install", "npm run build", "php artisan storage:link"]
+cmds = ["npm run build", "php artisan storage:link"]
