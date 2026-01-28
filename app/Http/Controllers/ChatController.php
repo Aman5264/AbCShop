@@ -81,7 +81,7 @@ class ChatController extends Controller
 
                 return response()->json([
                     'message' => $displayMessage,
-                    'error_details' => app()->environment('production') ? null : $errorData
+                    'error_details' => $errorData // Temporarily expose for debugging
                 ], 500);
             }
 
@@ -92,7 +92,7 @@ class ChatController extends Controller
                 Log::warning('Unexpected Gemini API Structure', ['response' => $data]);
                 return response()->json([
                     'message' => "I didn't quite catch that. Could you rephrase?",
-                    'error_details' => app()->environment('production') ? null : $data
+                    'error_details' => $data // Temporarily expose for debugging
                 ], 500);
             }
 
