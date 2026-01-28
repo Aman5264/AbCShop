@@ -1,9 +1,9 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "nodejs_20"]
+nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "php82Extensions.bcmath", "nodejs_20"]
 
 [phases.install]
 dependsOn = ["setup"]
-cmds = ["composer install --optimize-autoloader --no-dev", "npm ci"]
+cmds = ["composer install --ignore-platform-reqs --optimize-autoloader --no-dev", "npm ci"]
 
 [phases.build]
 dependsOn = ["install"]
