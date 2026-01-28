@@ -1,9 +1,8 @@
 const CACHE_NAME = 'abc-shop-v1';
 const urlsToCache = [
     '/',
-    '/css/app.css',
-    '/js/app.js',
-    '/icon-512.png'
+    '/icon-512.png',
+    '/manifest.json'
 ];
 
 self.addEventListener('install', event => {
