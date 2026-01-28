@@ -41,7 +41,8 @@ class ChatController extends Controller
         $userMessage = $request->input('message');
 
         try {
-            $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
+            // Using v1 (stable) instead of v1beta and ensuring model name is standard
+            $apiUrl = "https://generativelanguage.googleapis.com/v1/models/{$model}:generateContent?key={$apiKey}";
             
             $payload = [
                 'contents' => [
