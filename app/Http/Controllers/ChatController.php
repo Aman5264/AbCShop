@@ -25,11 +25,13 @@ class ChatController extends Controller
             'message' => 'required|string|max:500',
         ]);
 
-        $apiKey = config('services.gemini.key') ?? env('GEMINI_API_KEY');
+        $apiKey = config('services.gemini.key');
+        $model = config('services.gemini.model', 'gemini-1.5-flash');
 
         if (!$apiKey) {
+            Log::error('Chatbot Error: GEMINI_API_KEY is not set in environment variables.');
             return response()->json([
-                'message' => "I'm sorry, my AI brain isn't connected right now. Please check back later!",
+                'message' => "I'm sorry, my AI brain isn't connected right now. Please tell the administrator to set the GEMINI_API_KEY.",
                 'error' => 'Missing API Key'
             ], 503);
         }
@@ -39,8 +41,7 @@ class ChatController extends Controller
         $userMessage = $request->input('message');
 
         try {
-            // switching to gemini-flash-lite-latest as 2.0-flash has 0 quota limit
-            $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-lite-latest:generateContent?key={$apiKey}";
+            $apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}";
             
             $payload = [
                 'contents' => [
@@ -57,17 +58,30 @@ class ChatController extends Controller
             ];
 
             $response = Http::withHeaders(['Content-Type' => 'application/json'])
+                ->timeout(30)
                 ->post($apiUrl, $payload);
 
             if ($response->failed()) {
+                $errorData = $response->json();
+                $errorMessage = $errorData['error']['message'] ?? 'Unknown Gemini API Error';
+                
                 Log::error('Gemini API Failure', [
                     'status' => $response->status(),
-                    'body' => $response->json(),
+                    'error' => $errorMessage,
+                    'details' => $errorData,
                 ]);
 
+                // User friendly message with technical hint for admin
+                $displayMessage = "I'm having a bit of trouble thinking right now. Could you ask again?";
+                if (str_contains($errorMessage, 'API_KEY_INVALID')) {
+                    $displayMessage = "My API Key seems to be invalid. Please check the server configuration.";
+                } elseif ($response->status() === 429) {
+                    $displayMessage = "I'm a bit overwhelmed with requests right now. Please try again in a minute!";
+                }
+
                 return response()->json([
-                    'message' => "I'm having a bit of trouble thinking right now. Could you ask again?",
-                    'error_details' => $response->json()
+                    'message' => $displayMessage,
+                    'error_details' => app()->environment('production') ? null : $errorData
                 ], 500);
             }
 
@@ -78,7 +92,7 @@ class ChatController extends Controller
                 Log::warning('Unexpected Gemini API Structure', ['response' => $data]);
                 return response()->json([
                     'message' => "I didn't quite catch that. Could you rephrase?",
-                    'error_details' => $data
+                    'error_details' => app()->environment('production') ? null : $data
                 ], 500);
             }
 
