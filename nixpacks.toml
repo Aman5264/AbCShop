@@ -1,0 +1,10 @@
+[phases.setup]
+nixPkgs = ["php82", "php82Extensions.intl", "php82Extensions.zip", "nodejs_20"]
+
+[phases.install]
+dependsOn = ["setup"]
+cmds = ["composer install --optimize-autoloader --no-dev", "npm ci"]
+
+[phases.build]
+dependsOn = ["install"]
+cmds = ["npm run build", "php artisan storage:link"]
