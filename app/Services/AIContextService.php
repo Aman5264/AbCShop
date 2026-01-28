@@ -29,9 +29,9 @@ STRICT RULES:
     {
         $products = Product::where('is_active', true)
             ->limit(20) // Limit to avoid hitting token limits
-            ->get(['name', 'description', 'price', 'base_price', 'discount'])
+            ->get(['name', 'description', 'price', 'sale_price', 'sale_start_date', 'sale_end_date'])
             ->map(function ($p) {
-                $price = $p->price ?? $p->base_price;
+                $price = $p->is_on_sale ? $p->sale_price : $p->price;
                 return "- {$p->name}: ₹{$price}. {$p->description}";
             })->implode("\n");
 
