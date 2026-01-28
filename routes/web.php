@@ -16,6 +16,7 @@ Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->nam
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
 Route::post('/newsletter-subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 Route::post('/api/chat', \App\Http\Controllers\ChatController::class)->name('api.chat');
+Route::get('/api/chat', function() { return redirect('/'); });
 
 // FAQ Routes
 Route::get('/faq', [\App\Http\Controllers\FaqController::class, 'index'])->name('faq.index');

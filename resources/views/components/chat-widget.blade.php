@@ -1,5 +1,5 @@
 <div x-data="chatWidget()" 
-     class="fixed bottom-6 right-6 z-[9999]"
+     class="fixed bottom-6 right-24 z-[9999]"
      @keydown.escape.window="isOpen = false">
     
     <!-- Chat Bubble -->
