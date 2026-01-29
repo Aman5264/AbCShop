@@ -65,6 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['throttle:60,1'])->group(function () {
         Route::get('/checkout', [PaymentController::class, 'index'])->name('checkout.index');
         Route::post('/checkout', [PaymentController::class, 'process'])->name('checkout.process');
+        Route::get('/payment/dummy/{payment}', [PaymentController::class, 'dummyShow'])->name('payment.dummy.show');
+        Route::post('/payment/dummy/{payment}', [PaymentController::class, 'dummyProcess'])->name('payment.dummy.process');
         Route::post('/payment/razorpay/verify', [PaymentController::class, 'razorpayVerify'])->name('payment.razorpay.verify');
     });
 
