@@ -9,12 +9,12 @@
     <link rel="apple-touch-icon" href="/icon-512.png">
     <link rel="icon" type="image/png" href="/icon-512.png">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'ABCSHOP') }}</title>
     <meta name="description" content="Premium E-commerce Shopping Experience. Best brands, best prices.">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}">
+    <meta property="og:title" content="{{ config('app.name', 'ABCSHOP') }}">
     <meta property="og:description" content="Shop the latest trends in fashion and electronics.">
     <meta property="og:image" content="{{ asset('logo.png') }}">
 
