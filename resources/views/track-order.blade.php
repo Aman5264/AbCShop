@@ -9,8 +9,68 @@
                     </svg>
                 </div>
                 <h1 class="text-3xl font-bold text-gray-900">Track Your Order</h1>
-                <p class="mt-2 text-gray-600">Enter your order details to check the status</p>
+                <p class="mt-2 text-gray-600">Check the status of your purchases at ABCSHOP</p>
             </div>
+
+            @if(auth()->check() && count($userOrders) > 0)
+                <div class="mb-12">
+                    <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                        Your Recent Orders
+                    </h2>
+                    <div class="space-y-4">
+                        @foreach($userOrders as $order)
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition duration-300">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div>
+                                        <div class="flex items-center gap-3 mb-1">
+                                            <span class="text-sm font-bold text-primary">#{{ $order->order_number ?? $order->id }}</span>
+                                            @php
+                                                $statusClasses = [
+                                                    'pending' => 'bg-yellow-50 text-yellow-700 border-yellow-100',
+                                                    'processing' => 'bg-blue-50 text-blue-700 border-blue-100',
+                                                    'shipped' => 'bg-indigo-50 text-indigo-700 border-indigo-100',
+                                                    'delivered' => 'bg-green-50 text-green-700 border-green-100',
+                                                    'cancelled' => 'bg-red-50 text-red-700 border-red-100',
+                                                ];
+                                                $class = $statusClasses[$order->status] ?? 'bg-gray-50 text-gray-700 border-gray-100';
+                                            @endphp
+                                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border {{ $class }}">
+                                                {{ $order->status }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">Placed on {{ $order->created_at->format('M d, Y') }} • ₹{{ number_format($order->total_price, 2) }}</p>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <form action="{{ route('track.order') }}" method="POST">
+                                            @csrf
+                                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                                            <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-lg hover:bg-indigo-700 transition shadow-sm">
+                                                Track Now
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('orders.show', $order->id) }}" class="inline-flex items-center px-4 py-2 bg-gray-50 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-100 transition border border-gray-200">
+                                            Details
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                
+                <div class="relative my-8 text-center">
+                    <div class="absolute inset-0 flex items-center" aria-hidden="true">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative inline-block bg-gray-50 px-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">Or track manually</span>
+                    </div>
+                </div>
+            @endif
 
             <!-- Tracking Form -->
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
@@ -44,7 +104,7 @@
                                    id="order_id" 
                                    value="{{ old('order_id') }}"
                                    class="block w-full px-4 py-3 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" 
-                                   placeholder="e.g., ORD-20260125-ABC123"
+                                   placeholder="e.g., 1024"
                                    required>
                             @error('order_id')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
