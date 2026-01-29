@@ -1,5 +1,5 @@
 <div x-data="chatWidget()" 
-     class="fixed bottom-6 right-24 z-[9999]"
+     class="fixed bottom-[90px] right-6 sm:bottom-6 sm:right-24 z-[9999]"
      @keydown.escape.window="isOpen = false">
     
     <!-- Chat Bubble -->
@@ -139,14 +139,10 @@
                     if (response.ok && data.message) {
                         this.messages.push({ role: 'assistant', content: data.message });
                     } else {
-                        let errorMsg = "I'm having a bit of trouble thinking right now. 🔌";
-                        if (data.error_details) {
-                            const details = typeof data.error_details === 'object' 
-                                ? JSON.stringify(data.error_details, null, 2) 
-                                : data.error_details;
-                            errorMsg += `<br><br><div class="bg-red-50 p-2 rounded text-[10px] font-mono text-red-600 overflow-x-auto">DEBUG INFO:<br>${details}</div>`;
-                        }
-                        this.messages.push({ role: 'assistant', content: errorMsg });
+                        this.messages.push({ 
+                            role: 'assistant', 
+                            content: data.message || "I'm having a bit of trouble thinking right now. 🔌" 
+                        });
                     }
                 } catch (error) {
                     this.messages.push({ 
