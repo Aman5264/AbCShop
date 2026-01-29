@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#4f46e5">
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/icon-512.png">
+    <link rel="icon" type="image/png" href="/icon-512.png">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta name="description" content="Premium E-commerce Shopping Experience. Best brands, best prices.">

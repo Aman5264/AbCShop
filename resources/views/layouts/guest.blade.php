@@ -8,6 +8,7 @@
         <title>{{ config('app.name', 'Laravel') }} - Login</title>
 
         <!-- Scripts -->
+        <link rel="icon" type="image/png" href="{{ asset('icon-512.png') }}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         <style>

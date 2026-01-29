@@ -29,6 +29,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('ABCSHOP')
+            ->brandLogo(asset('icon-512.png'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('icon-512.png'))
             ->font('Outfit')
             ->colors([
                 'primary' => Color::Indigo,
