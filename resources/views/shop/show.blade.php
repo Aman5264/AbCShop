@@ -10,11 +10,54 @@
 
             <div class="lg:grid lg:grid-cols-2 lg:gap-x-12 lg:items-start" x-data="{ qty: 1 }">
                 <!-- Image Gallery -->
-                <div class="flex flex-col">
-                    <div class="aspect-w-1 aspect-h-1 w-full bg-gray-100 rounded-xl overflow-hidden shadow-inner">
-                         <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" 
-                              alt="{{ $product->name }}" 
-                              class="w-full h-full object-center object-cover hover:scale-110 transition duration-700">
+                <div class="flex flex-col" x-data="{ activeImage: '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}', showVideo: false }">
+                    <!-- Main Display -->
+                    <div class="aspect-w-1 aspect-h-1 w-full bg-gray-100 rounded-xl overflow-hidden shadow-inner relative">
+                        <template x-if="!showVideo">
+                           <img :src="activeImage" 
+                                alt="{{ $product->name }}" 
+                                class="w-full h-full object-center object-cover hover:scale-110 transition duration-700">
+                        </template>
+                        
+                        @if($product->video_url)
+                        <template x-if="showVideo">
+                            <video class="w-full h-full object-cover" controls autoplay muted loop>
+                                <source src="{{ Storage::url($product->video_url) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </template>
+                        @endif
+                    </div>
+
+                    <!-- Thumbnails -->
+                    <div class="mt-4 grid grid-cols-4 gap-4">
+                        <!-- Main Image Thumb -->
+                        <button @click="activeImage = '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}'; showVideo = false" 
+                                class="aspect-square rounded-lg border-2 overflow-hidden transition"
+                                :class="activeImage === '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}' && !showVideo ? 'border-accent' : 'border-transparent hover:border-gray-300'">
+                            <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" class="w-full h-full object-cover">
+                        </button>
+
+                        <!-- Gallery Photos -->
+                        @if($product->images)
+                            @foreach($product->images as $img)
+                                <button @click="activeImage = '{{ Storage::url($img) }}'; showVideo = false" 
+                                        class="aspect-square rounded-lg border-2 overflow-hidden transition"
+                                        :class="activeImage === '{{ Storage::url($img) }}' && !showVideo ? 'border-accent' : 'border-transparent hover:border-gray-300'">
+                                    <img src="{{ Storage::url($img) }}" class="w-full h-full object-cover">
+                                </button>
+                            @endforeach
+                        @endif
+
+                        <!-- Video Thumb -->
+                        @if($product->video_url)
+                            <button @click="showVideo = true; activeImage = ''" 
+                                    class="aspect-square rounded-lg border-2 overflow-hidden transition bg-black relative flex items-center justify-center text-white"
+                                    :class="showVideo ? 'border-accent' : 'border-transparent hover:border-gray-300'">
+                                <i class="fas fa-play text-xl"></i>
+                                <span class="absolute bottom-1 left-0 w-full text-[8px] font-bold uppercase text-center bg-black/50 py-0.5">Video</span>
+                            </button>
+                        @endif
                     </div>
                 </div>
 

@@ -1,22 +1,25 @@
 <?php
 
-namespace App\Filament\Resources\Orders;
+namespace App\Filament\Resources;
 
-use App\Filament\Resources\Orders\Pages\CreateOrder;
-use App\Filament\Resources\Orders\Pages\EditOrder;
-use App\Filament\Resources\Orders\Pages\ListOrders;
 use App\Models\Order;
+use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Actions;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Resources\Orders\OrderResource\RelationManagers;
+use App\Filament\Resources\Orders\Pages;
 
 class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
+    
+    protected static ?string $navigationGroup = 'Orders';
+
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $recordTitleAttribute = 'customer_name';
 
@@ -24,16 +27,16 @@ class OrderResource extends Resource
     {
         return $form
             ->schema([
-                \Filament\Forms\Components\Section::make('Order Summary')
+                Forms\Components\Section::make('Order Summary')
                     ->schema([
-                        \Filament\Forms\Components\TextInput::make('customer_name')
+                        Forms\Components\TextInput::make('customer_name')
                             ->required()
                             ->maxLength(255),
-                        \Filament\Forms\Components\TextInput::make('total_price')
+                        Forms\Components\TextInput::make('total_price')
                             ->numeric()
                             ->prefix('₹')
                             ->required(),
-                        \Filament\Forms\Components\Select::make('status')
+                        Forms\Components\Select::make('status')
                             ->options([
                                 'pending' => 'Pending',
                                 'processing' => 'Processing',
@@ -43,18 +46,18 @@ class OrderResource extends Resource
                                 'refunded' => 'Refunded',
                             ])
                             ->required(),
-                        \Filament\Forms\Components\Textarea::make('notes')
+                        Forms\Components\Textarea::make('notes')
                             ->columnSpanFull(),
                     ])
                     ->columns(2),
-                \Filament\Forms\Components\Section::make('Shipping & Billing')
+                Forms\Components\Section::make('Shipping & Billing')
                     ->schema([
-                        \Filament\Forms\Components\TextInput::make('shipping_address')
+                        Forms\Components\TextInput::make('shipping_address')
                             ->maxLength(255),
-                        \Filament\Forms\Components\TextInput::make('billing_address')
+                        Forms\Components\TextInput::make('billing_address')
                             ->maxLength(255),
-                        \Filament\Forms\Components\TextInput::make('shipping_method'),
-                        \Filament\Forms\Components\TextInput::make('tracking_number'),
+                        Forms\Components\TextInput::make('shipping_method'),
+                        Forms\Components\TextInput::make('tracking_number'),
                     ])
                     ->columns(2)
                     ->collapsible(),
@@ -98,27 +101,6 @@ class OrderResource extends Resource
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
-                    Tables\Actions\Action::make('updateStatus')
-                        ->icon('heroicon-m-arrow-path')
-                        ->color('info')
-                        ->form([
-                            \Filament\Forms\Components\Select::make('status')
-                                ->options([
-                                    'pending' => 'Pending',
-                                    'processing' => 'Processing',
-                                    'shipped' => 'Shipped',
-                                    'delivered' => 'Delivered',
-                                    'cancelled' => 'Cancelled',
-                                    'refunded' => 'Refunded',
-                                ])
-                                ->required(),
-                            \Filament\Forms\Components\Textarea::make('notes')
-                                ->label('Status Notes'),
-                        ])
-                        ->action(function (Order $record, array $data) {
-                            $service = app(\App\Services\OrderService::class);
-                            $service->updateOrderStatus($record, $data['status'], $data['notes'] ?? null);
-                        }),
                     Tables\Actions\DeleteAction::make(),
                 ]),
             ])
@@ -137,9 +119,9 @@ class OrderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListOrders::route('/'),
-            'create' => CreateOrder::route('/create'),
-            'edit' => EditOrder::route('/{record}/edit'),
+            'index' => Pages\ListOrders::route('/'),
+            'create' => Pages\CreateOrder::route('/create'),
+            'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
 }

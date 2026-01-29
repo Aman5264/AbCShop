@@ -24,6 +24,8 @@ class Product extends Model
         'sale_price',
         'sale_start_date',
         'sale_end_date',
+        'images',
+        'video_url',
     ];
 
     protected $casts = [
@@ -34,6 +36,7 @@ class Product extends Model
         'sale_price' => 'decimal:2',
         'sale_start_date' => 'datetime',
         'sale_end_date' => 'datetime',
+        'images' => 'array',
     ];
 
     public function getIsOnSaleAttribute(): bool
