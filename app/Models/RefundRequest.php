@@ -18,6 +18,10 @@ class RefundRequest extends Model
         'pickup_date',
     ];
 
+    protected $casts = [
+        'pickup_date' => 'date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
