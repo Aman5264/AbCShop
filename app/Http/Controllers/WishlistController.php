@@ -17,6 +17,13 @@ class WishlistController extends Controller
 
     public function toggle($productId)
     {
+        if (!Auth::check()) {
+            if (request()->ajax()) {
+                return response()->json(['error' => 'Please login first.'], 401);
+            }
+            return redirect()->route('login');
+        }
+
         $user = Auth::user();
         
         // check if already exists
@@ -24,12 +31,24 @@ class WishlistController extends Controller
 
         if ($wishlist) {
             $wishlist->delete();
-            return back()->with('success', 'Product removed from wishlist.');
+            $status = 'removed';
+            $message = 'Product removed from wishlist.';
         } else {
             $user->wishlists()->create([
                 'product_id' => $productId
             ]);
-            return back()->with('success', 'Product added to wishlist.');
+            $status = 'added';
+            $message = 'Product added to wishlist.';
         }
+
+        if (request()->ajax()) {
+            return response()->json([
+                'status' => $status,
+                'message' => $message,
+                'count' => $user->wishlists()->count()
+            ]);
+        }
+
+        return back()->with('success', $message);
     }
 }
