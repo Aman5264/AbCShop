@@ -53,6 +53,14 @@ class AppServiceProvider extends ServiceProvider
             } catch (\Exception $e) {
                 $view->with('navPages', collect());
             }
+
+            // Share Categories
+            try {
+                $categories = \App\Models\Category::whereNull('parent_id')->get(['name', 'slug']);
+                $view->with('shopCategories', $categories);
+            } catch (\Exception $e) {
+                $view->with('shopCategories', collect());
+            }
         }
     );
 }

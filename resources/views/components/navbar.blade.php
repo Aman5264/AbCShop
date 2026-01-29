@@ -39,6 +39,12 @@
                         {{ $page->title }}
                     </a>
                     @endforeach
+
+                    @foreach($shopCategories as $category)
+                    <a href="{{ route('shop.index', ['category' => $category->slug]) }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->get('category') == $category->slug ? 'border-accent text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        {{ $category->name }}
+                    </a>
+                    @endforeach
                 </div>
             </div>
 
@@ -171,8 +177,11 @@
                 </a>
             @endforeach
 
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50">Men</a>
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50">Women</a>
+            @foreach($shopCategories as $category)
+                <a href="{{ route('shop.index', ['category' => $category->slug]) }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->get('category') == $category->slug ? 'text-accent bg-gray-50 border-l-4 border-accent' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50' }}">
+                    {{ $category->name }}
+                </a>
+            @endforeach
         </div>
         <div class="pt-4 pb-4 border-t border-gray-200">
              @auth
