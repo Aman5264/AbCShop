@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
     // Share Cart Count with layouts
     View::composer(
-        ['components.shop-layout', 'components.navbar', 'components.account-layout'],
+        ['components.shop-layout', 'components.navbar', 'components.account-layout', 'layouts.navigation'],
         function ($view) {
             try {
                 $cartService = app(\App\Services\CartService::class);

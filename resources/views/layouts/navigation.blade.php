@@ -29,19 +29,8 @@
                 <a href="{{ route('cart.index') }}" 
                    class="group -m-2 flex items-center p-2 relative">
                     <i class="fas fa-shopping-cart text-gray-400 group-hover:text-gray-500 text-xl"></i>
-                    @php
-                        $count = 0;
-                        if(auth()->check()) {
-                            $count = \App\Models\CartItem::where('user_id', auth()->id())->sum('quantity');
-                        } else {
-                            $cart = session('cart', []);
-                            $count = array_reduce($cart, function($carry, $item) {
-                                return $carry + $item['quantity'];
-                            }, 0);
-                        }
-                    @endphp
-                    @if($count > 0)
-                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{ $count }}</span>
+                    @if(isset($cartCount) && $cartCount > 0)
+                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{{ $cartCount }}</span>
                     @endif
                 </a>
             </div>
