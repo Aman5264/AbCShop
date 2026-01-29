@@ -25,9 +25,9 @@
                 <ul class="space-y-2 text-sm text-gray-400">
                     <li><a href="{{ route('faq.index') }}" class="hover:text-accent transition">FAQ / Help Center</a></li>
                     <li><a href="{{ route('track.order.form') }}" class="hover:text-accent transition">Track Order</a></li>
-                    <li><a href="{{ route('pages.show', 'returns-exchanges') }}" class="hover:text-accent transition">Returns & Exchanges</a></li>
-                    <li><a href="{{ route('pages.show', 'customer-service') }}" class="hover:text-accent transition">Customer Service</a></li>
-                    <li><a href="{{ route('pages.show', 'terms-conditions') }}" class="hover:text-accent transition">Terms & Conditions</a></li>
+                    <li><a href="{{ route('static.returns') }}" class="hover:text-accent transition">Returns & Exchanges</a></li>
+                    <li><a href="{{ route('static.customer-service') }}" class="hover:text-accent transition">Customer Service</a></li>
+                    <li><a href="{{ route('static.terms') }}" class="hover:text-accent transition">Terms & Conditions</a></li>
                 </ul>
             </div>
             

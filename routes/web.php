@@ -23,6 +23,11 @@ Route::get('/api/chat', function() { return redirect('/'); });
 Route::get('/faq', [\App\Http\Controllers\FaqController::class, 'index'])->name('faq.index');
 Route::post('/faq/{faq}/increment-views', [\App\Http\Controllers\FaqController::class, 'incrementViews'])->name('faq.increment');
 
+// Static Support Pages
+Route::get('/returns-exchanges', function() { return view('pages.static.returns-exchanges'); })->name('static.returns');
+Route::get('/customer-service', function() { return view('pages.static.customer-service'); })->name('static.customer-service');
+Route::get('/terms-conditions', function() { return view('pages.static.terms-conditions'); })->name('static.terms');
+
 // Auth Routes (Login, Register, etc.)
 require __DIR__.'/auth.php';
 
