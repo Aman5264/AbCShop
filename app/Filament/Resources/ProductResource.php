@@ -108,6 +108,14 @@ class ProductResource extends Resource
                                             ->required()
                                             ->default('active'),
                                     ]),
+                                Forms\Components\Section::make('Associations')
+                                    ->schema([
+                                        Forms\Components\Select::make('categories')
+                                            ->relationship('categories', 'name')
+                                            ->multiple()
+                                            ->preload()
+                                            ->searchable(),
+                                    ]),
                                 Forms\Components\Section::make('Media')
                                     ->schema([
                                         Forms\Components\FileUpload::make('image_url')
