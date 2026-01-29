@@ -45,6 +45,14 @@ class AppServiceProvider extends ServiceProvider
             } catch (\Exception $e) {
                 $view->with('cartCount', 0);
             }
+            
+            // Share Active Pages
+            try {
+                $pages = \App\Models\Page::published()->get(['title', 'slug']);
+                $view->with('navPages', $pages);
+            } catch (\Exception $e) {
+                $view->with('navPages', collect());
+            }
         }
     );
 }
