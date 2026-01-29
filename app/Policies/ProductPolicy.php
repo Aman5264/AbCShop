@@ -8,12 +8,9 @@ use Illuminate\Auth\Access\Response;
 
 class ProductPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('manage_products') || $user->hasRole(['admin', 'manager', 'staff']);
+        return $user->role === 'admin' || $user->hasPermissionTo('manage_products') || $user->hasRole(['admin', 'manager', 'staff']);
     }
 
     /**
@@ -21,7 +18,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product): bool
     {
-        return $user->hasPermissionTo('manage_products') || $user->hasRole(['admin', 'manager', 'staff']);
+        return $user->role === 'admin' || $user->hasPermissionTo('manage_products') || $user->hasRole(['admin', 'manager', 'staff']);
     }
 
     /**
@@ -29,7 +26,7 @@ class ProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('manage_products');
+        return in_array($user->role, ['admin', 'manager', 'staff']) || $user->hasPermissionTo('manage_products');
     }
 
     /**
@@ -37,7 +34,7 @@ class ProductPolicy
      */
     public function update(User $user, Product $product): bool
     {
-        return $user->hasPermissionTo('manage_products');
+        return in_array($user->role, ['admin', 'manager', 'staff']) || $user->hasPermissionTo('manage_products');
     }
 
     /**
@@ -45,7 +42,7 @@ class ProductPolicy
      */
     public function delete(User $user, Product $product): bool
     {
-        return $user->hasPermissionTo('manage_products');
+        return in_array($user->role, ['admin', 'manager', 'staff']) || $user->hasPermissionTo('manage_products');
     }
 
     /**
@@ -53,6 +50,6 @@ class ProductPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('manage_products');
+        return in_array($user->role, ['admin', 'manager', 'staff']) || $user->hasPermissionTo('manage_products');
     }
 }
