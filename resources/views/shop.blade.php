@@ -4,7 +4,7 @@
     @if($banners->isNotEmpty())
     <div x-data="{ activeSlide: 0, slides: {{ $banners->count() }}, interval: null }" 
          x-init="interval = setInterval(() => { activeSlide = activeSlide === slides - 1 ? 0 : activeSlide + 1 }, 5000)"
-         class="relative bg-gray-900 h-[400px] md:h-[500px] overflow-hidden group">
+         class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden group">
         
         <!-- Slides -->
         @foreach($banners as $index => $banner)
