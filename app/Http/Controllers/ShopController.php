@@ -16,7 +16,22 @@ class ShopController extends Controller
         $this->cartService = $cartService;
     }
 
-    // 1. List Products (Home Page)
+    // 0. Home Page (Featured Products)
+    public function home()
+    {
+        $banners = \App\Models\Banner::where('is_active', true)->orderBy('sort_order')->get();
+        
+        $featuredProducts = Product::where('is_active', true)
+            ->where('is_featured', true)
+            ->take(8)
+            ->get();
+            
+        $categories = Category::whereNull('parent_id')->with('children')->get();
+            
+        return view('home', compact('banners', 'featuredProducts', 'categories'));
+    }
+
+    // 1. List Products (Shop Page)
     public function index(Request $request)
     {
         $query = Product::where('is_active', true);

@@ -17,15 +17,18 @@
                 
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('shop.index') }}" class="flex items-center gap-2">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2">
                         <span class="text-xl sm:text-2xl font-bold tracking-tight text-primary">ABC<span class="text-accent">SHOP</span></span>
                     </a>
                 </div>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <a href="{{ route('shop.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('shop.index') ? 'border-accent text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                    <a href="{{ route('home') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('home') ? 'border-accent text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
                         Home
+                    </a>
+                    <a href="{{ route('shop.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('shop.index') ? 'border-accent text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
+                        Shop
                     </a>
                     <a href="{{ route('blog.index') }}" class="inline-flex items-center px-1 pt-1 border-b-2 {{ request()->routeIs('blog.*') ? 'border-accent text-gray-900' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} text-sm font-medium leading-5 transition duration-150 ease-in-out">
                         Blog
@@ -161,7 +164,8 @@
                 </form>
             </div>
 
-            <a href="{{ route('shop.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('shop.index') ? 'text-accent bg-gray-50 border-l-4 border-accent' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50' }}">Home</a>
+            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('home') ? 'text-accent bg-gray-50 border-l-4 border-accent' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50' }}">Home</a>
+            <a href="{{ route('shop.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('shop.index') ? 'text-accent bg-gray-50 border-l-4 border-accent' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50' }}">Shop</a>
             <a href="{{ route('blog.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('blog.*') ? 'text-accent bg-gray-50 border-l-4 border-accent' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50' }}">Blog</a>
             <a href="{{ route('faq.index') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('faq.*') ? 'text-accent bg-gray-50 border-l-4 border-accent' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50' }}">FAQ</a>
             

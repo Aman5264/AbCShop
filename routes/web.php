@@ -7,7 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function() { return view('welcome'); })->name('home');
+Route::get('/', [ShopController::class, 'home'])->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart.index');
 Route::get('/add-to-cart/{id}', [ShopController::class, 'addToCart'])->name('add.to.cart');
