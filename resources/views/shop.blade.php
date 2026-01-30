@@ -202,10 +202,6 @@
                     @forelse($products as $product)
                         <div class="group flex flex-col h-full bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden relative">
                             
-                            <!-- Bestseller Badge (Random logic for demo or attribute) -->
-                            <div class="absolute top-3 left-0 z-20">
-                                <span class="bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-r-sm tracking-wider uppercase">Bestseller</span>
-                            </div>
 
                             <!-- Image Container -->
                             <div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 relative">
