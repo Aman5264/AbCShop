@@ -127,58 +127,55 @@
             </a>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="flex overflow-x-auto gap-4 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide snap-x snap-mandatory">
             @forelse($featuredProducts as $product)
-                <div class="group relative flex flex-col h-full bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    <!-- Image -->
-                    <div class="aspect-[4/5] w-full overflow-hidden bg-gray-200 relative">
-                        <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" 
-                             alt="{{ $product->name }}" 
-                             class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-700 ease-in-out"
-                             loading="lazy">
+                <div class="group relative flex flex-col flex-none w-[280px] sm:w-[320px] snap-center">
+                    <!-- Image Container -->
+                    <div class="aspect-[3/4] w-full overflow-hidden rounded-2xl bg-gray-100 relative mb-4">
+                        <!-- Bestseller Badge -->
+                        <div class="absolute top-3 left-3 z-10">
+                            <span class="bg-black text-white text-[10px] font-bold px-2 py-1 rounded-sm tracking-wider uppercase">Bestseller</span>
+                        </div>
+
+                        <a href="{{ route('shop.show', $product->id) }}">
+                            <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" 
+                                 alt="{{ $product->name }}" 
+                                 class="h-full w-full object-cover object-center group-hover:scale-105 transition duration-500 ease-in-out"
+                                 loading="lazy">
+                        </a>
                         
                         <!-- Quick Add Button -->
                         <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
-                            <a href="{{ route('add.to.cart', $product->id) }}" class="bg-white text-primary p-3 rounded-full shadow-lg hover:bg-accent hover:text-white transition transform hover:scale-105 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                            <a href="{{ route('add.to.cart', $product->id) }}" class="bg-white text-black p-3 rounded-full shadow-xl hover:bg-black hover:text-white transition transform hover:scale-110 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
                             </a>
                         </div>
                     </div>
 
                     <!-- Details -->
-                    <div class="p-6 flex flex-col flex-1">
-                        <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mb-2">{{ $product->brand ?? 'ABC PREMIUM' }}</p>
-                        <h3 class="text-lg font-bold text-gray-900 group-hover:text-accent transition-colors mb-2 line-clamp-2">
+                    <div class="flex flex-col px-1">
+                        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">{{ $product->brand ?? 'ABC PREMIUM' }}</p>
+                        <h3 class="text-base font-medium text-gray-900 mb-1 truncate">
                             <a href="{{ route('shop.show', $product->id) }}">
-                                <span aria-hidden="true" class="absolute inset-0"></span>
                                 {{ $product->name }}
                             </a>
                         </h3>
+                         <p class="text-sm text-gray-500 mb-2 truncate">{{ $product->description ?? 'Premium quality comfort' }}</p>
                         
-                        <div class="mt-auto flex items-end justify-between">
-                            <div class="flex flex-col">
-                                @if($product->is_on_sale)
-                                    <p class="text-xl font-bold text-red-600">₹{{ number_format($product->sale_price, 2) }}</p>
-                                    <p class="text-sm text-gray-400 line-through">₹{{ number_format($product->price, 2) }}</p>
-                                @else
-                                    <p class="text-xl font-bold text-gray-900">₹{{ number_format($product->price, 2) }}</p>
-                                @endif
-                            </div>
-                            <!-- Rating Placeholder -->
-                            <div class="flex text-yellow-400 text-xs">
-                                @for($i=0; $i<5; $i++)
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
-                                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
-                                    </svg>
-                                @endfor
-                            </div>
+                        <div class="mt-auto flex items-center gap-2">
+                            @if($product->is_on_sale)
+                                <p class="text-lg font-bold text-black">₹{{ number_format($product->sale_price, 2) }}</p>
+                                <p class="text-sm text-gray-400 line-through">₹{{ number_format($product->price, 2) }}</p>
+                            @else
+                                <p class="text-lg font-bold text-black">₹{{ number_format($product->price, 2) }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>
             @empty
-                <div class="col-span-full py-20 text-center bg-gray-50 rounded-3xl">
+                <div class="w-full py-20 text-center bg-gray-50 rounded-3xl mx-auto">
                     <p class="text-gray-500 text-lg mb-4">No featured products found.</p>
                     <a href="{{ route('shop.index') }}" class="text-accent font-bold hover:underline">Browse all products</a>
                 </div>
