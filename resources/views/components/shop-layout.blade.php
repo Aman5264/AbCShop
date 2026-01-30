@@ -28,16 +28,7 @@
 </head>
 <body class="font-sans antialiased text-gray-900 bg-white selection:bg-accent selection:text-white">
     <div class="min-h-screen flex flex-col">
-        <!-- Navigation -->
-        @include('components.navbar')
-
-        <!-- Toast Notifications -->
-        <x-toast />
-
-        <!-- Page Content -->
-        <main class="flex-grow">
-            {{ $slot }}
-        </main>
+        @include('components.navbar')<x-toast /><main class="flex-grow">{{ $slot }}</main>
 
         <!-- Footer -->
         @include('components.footer')
