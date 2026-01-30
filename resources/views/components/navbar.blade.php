@@ -1,7 +1,7 @@
-﻿<nav x-data="{ open: false, searchOpen: false }" class="sticky top-0 z-50 bg-white">
+﻿<nav x-data="{ open: false, searchOpen: false }" class="sticky top-0 z-50 bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16 items-center">
+        <div class="flex justify-between h-14 sm:h-16 items-center">
             
             <!-- Left: Logo & Mobile Menu -->
             <div class="flex items-center gap-2 sm:gap-4">

@@ -4,62 +4,65 @@
     @if($banners->isNotEmpty())
     <div x-data="{ activeSlide: 0, slides: {{ $banners->count() }}, interval: null }" 
          x-init="interval = setInterval(() => { activeSlide = activeSlide === slides - 1 ? 0 : activeSlide + 1 }, 5000)"
-         class="relative bg-gray-900 aspect-[3/4] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden group">
+         class="relative bg-gray-900 overflow-hidden group">
         
         <!-- Slides -->
-        @foreach($banners as $index => $banner)
-        <div x-show="activeSlide === {{ $index }}"
-             x-transition:enter="transition transform duration-700 ease-out"
-             x-transition:enter-start="opacity-0 scale-105"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition transform duration-700 ease-in"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             class="absolute inset-0 w-full h-full">
-            
-            <!-- Desktop Image -->
-            <img src="{{ Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url) }}" 
-                 alt="{{ $banner->title }}" 
-                 class="hidden md:block w-full h-full object-cover">
+        <div class="grid grid-cols-1">
+            @foreach($banners as $index => $banner)
+            <div x-show="activeSlide === {{ $index }}"
+                 x-transition:enter="transition ease-out duration-700"
+                 x-transition:enter-start="opacity-0 transform scale-105"
+                 x-transition:enter-end="opacity-100 transform scale-100"
+                 x-transition:leave="transition ease-in duration-700"
+                 x-transition:leave-start="opacity-100 transform scale-100"
+                 x-transition:leave-end="opacity-0 transform scale-95"
+                 class="col-start-1 row-start-1 w-full h-auto"
+                 style="display: none;">
+                
+                <!-- Desktop Image -->
+                <img src="{{ Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url) }}" 
+                     alt="{{ $banner->title }}" 
+                     class="hidden md:block w-full h-auto object-cover">
 
-            <!-- Mobile Image -->
-            <img src="{{ $banner->mobile_image_url ? (Str::startsWith($banner->mobile_image_url, 'http') ? $banner->mobile_image_url : Storage::url($banner->mobile_image_url)) : (Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url)) }}" 
-                 alt="{{ $banner->title }}" 
-                 class="block md:hidden w-full h-full object-cover">
-            
-            <!-- Overlay & Content -->
-            <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <div class="text-center text-white px-4 max-w-4xl">
-                    <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 sm:mb-6 leading-tight drop-shadow-md">
-                        {{ $banner->title }}
-                    </h1>
-                    @if($banner->description)
-                    <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 font-light text-gray-100 drop-shadow-sm">
-                        {{ $banner->description }}
-                    </p>
-                    @endif
-                    @if($banner->link)
-                    <a href="{{ $banner->link }}" class="inline-block bg-accent hover:bg-yellow-500 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 shadow-xl">
-                        Shop Collection
-                    </a>
-                    @endif
+                <!-- Mobile Image -->
+                <img src="{{ $banner->mobile_image_url ? (Str::startsWith($banner->mobile_image_url, 'http') ? $banner->mobile_image_url : Storage::url($banner->mobile_image_url)) : (Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url)) }}" 
+                     alt="{{ $banner->title }}" 
+                     class="block md:hidden w-full h-auto object-cover">
+                
+                <!-- Overlay & Content -->
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none">
+                    <div class="text-center text-white px-4 max-w-4xl pointer-events-auto">
+                        <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 sm:mb-6 leading-tight drop-shadow-md">
+                            {{ $banner->title }}
+                        </h1>
+                        @if($banner->description)
+                        <p class="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 font-light text-gray-100 drop-shadow-sm line-clamp-2">
+                            {{ $banner->description }}
+                        </p>
+                        @endif
+                        @if($banner->link)
+                        <a href="{{ $banner->link }}" class="inline-block bg-accent hover:bg-yellow-500 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 shadow-xl">
+                            Shop Collection
+                        </a>
+                        @endif
+                    </div>
                 </div>
             </div>
+            @endforeach
         </div>
-        @endforeach
 
         <!-- Navigation Arrows (Hidden on mobile) -->
         <button @click="activeSlide = activeSlide === 0 ? slides - 1 : activeSlide - 1" 
-                class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition">
+                class="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition z-10">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
         <button @click="activeSlide = activeSlide === slides - 1 ? 0 : activeSlide + 1" 
-                class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition">
+                class="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 text-white p-3 rounded-full backdrop-blur-sm transition z-10">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </button>
 
         <!-- Indicators -->
-        <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2">
+        <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-10">
             @foreach($banners as $index => $banner)
             <button @click="activeSlide = {{ $index }}" 
                     :class="activeSlide === {{ $index }} ? 'bg-accent w-8' : 'bg-white/50 w-2 hover:bg-white'"
@@ -69,27 +72,26 @@
     </div>
     @elseif(isset($currentCategory))
     <!-- Category Hero -->
-    <div class="relative bg-gray-900 aspect-[3/4] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
-        <div class="absolute inset-0">
-            @if($currentCategory->image)
-                <!-- Desktop Image -->
-                <img src="{{ Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image) }}" 
-                     alt="{{ $currentCategory->name }}" class="hidden md:block w-full h-full object-cover opacity-60">
+    <div class="relative bg-gray-900 overflow-hidden">
+        @if($currentCategory->image)
+            <!-- Desktop Image -->
+            <img src="{{ Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image) }}" 
+                 alt="{{ $currentCategory->name }}" class="hidden md:block w-full h-auto object-cover opacity-60">
 
-                <!-- Mobile Image -->
-                <img src="{{ $currentCategory->mobile_image ? (Str::startsWith($currentCategory->mobile_image, 'http') ? $currentCategory->mobile_image : Storage::url($currentCategory->mobile_image)) : (Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image)) }}" 
-                     alt="{{ $currentCategory->name }}" class="block md:hidden w-full h-full object-cover opacity-60">
-            @else
-                <div class="w-full h-full bg-gray-800 opacity-60"></div>
-            @endif
-        </div>
+            <!-- Mobile Image -->
+            <img src="{{ $currentCategory->mobile_image ? (Str::startsWith($currentCategory->mobile_image, 'http') ? $currentCategory->mobile_image : Storage::url($currentCategory->mobile_image)) : (Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image)) }}" 
+                 alt="{{ $currentCategory->name }}" class="block md:hidden w-full h-auto object-cover opacity-60">
+        @else
+            <div class="w-full aspect-[21/9] bg-gray-800 opacity-60"></div>
+        @endif
+        
         <div class="absolute inset-0 flex items-center justify-center">
-            <div class="text-center text-white px-4">
-                <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 leading-tight">{{ $currentCategory->name }}</h1>
-                @if($currentCategory->description)
-                <p class="text-lg sm:text-xl md:text-2xl font-light text-gray-100 max-w-2xl mx-auto">{{ $currentCategory->description }}</p>
-                @endif
-            </div>
+             <div class="text-center text-white px-4">
+                 <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 drop-shadow-md">{{ $currentCategory->name }}</h1>
+                 @if($currentCategory->description)
+                     <p class="text-lg sm:text-xl text-gray-200 max-w-2xl mx-auto drop-shadow-sm">{{ $currentCategory->description }}</p>
+                 @endif
+             </div>
         </div>
     </div>
     @elseif(!request()->has('category') && !request()->has('search'))
