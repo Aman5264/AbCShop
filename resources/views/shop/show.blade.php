@@ -12,11 +12,11 @@
                 <!-- Image Gallery -->
                 <div class="flex flex-col" x-data="{ activeImage: '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}', showVideo: false }">
                     <!-- Main Display -->
-                    <div class="aspect-w-1 aspect-h-1 w-full bg-gray-100 rounded-xl overflow-hidden shadow-inner relative">
+                    <div class="aspect-[4/5] w-full bg-white rounded-2xl overflow-hidden border border-gray-100 relative shadow-sm group">
                         <template x-if="!showVideo">
                            <img :src="activeImage" 
                                 alt="{{ $product->name }}" 
-                                class="w-full h-full object-center object-cover hover:scale-110 transition duration-700">
+                                class="w-full h-full object-center object-contain p-2 group-hover:scale-105 transition duration-500">
                         </template>
                         
                         @if($product->video_url)
@@ -33,18 +33,18 @@
                     <div class="mt-4 grid grid-cols-4 gap-4">
                         <!-- Main Image Thumb -->
                         <button @click="activeImage = '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}'; showVideo = false" 
-                                class="aspect-square rounded-lg border-2 overflow-hidden transition"
-                                :class="activeImage === '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}' && !showVideo ? 'border-accent' : 'border-transparent hover:border-gray-300'">
-                            <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" class="w-full h-full object-cover">
+                                class="aspect-square rounded-xl border-2 overflow-hidden transition bg-white"
+                                :class="activeImage === '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}' && !showVideo ? 'border-accent' : 'border-transparent hover:border-gray-200'">
+                            <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" class="w-full h-full object-contain p-1">
                         </button>
 
                         <!-- Gallery Photos -->
                         @if($product->images)
                             @foreach($product->images as $img)
                                 <button @click="activeImage = '{{ Storage::url($img) }}'; showVideo = false" 
-                                        class="aspect-square rounded-lg border-2 overflow-hidden transition"
-                                        :class="activeImage === '{{ Storage::url($img) }}' && !showVideo ? 'border-accent' : 'border-transparent hover:border-gray-300'">
-                                    <img src="{{ Storage::url($img) }}" class="w-full h-full object-cover">
+                                        class="aspect-square rounded-xl border-2 overflow-hidden transition bg-white"
+                                        :class="activeImage === '{{ Storage::url($img) }}' && !showVideo ? 'border-accent' : 'border-transparent hover:border-gray-200'">
+                                    <img src="{{ Storage::url($img) }}" class="w-full h-full object-contain p-1">
                                 </button>
                             @endforeach
                         @endif

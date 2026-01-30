@@ -26,7 +26,7 @@
                 </div>
                 @if($post->image)
                     <figure class="mt-8">
-                         <img class="w-full rounded-lg" src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}" width="1310" height="873">
+                         <img class="max-w-full h-auto max-h-[500px] mx-auto rounded-xl shadow-lg object-contain bg-gray-50" src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}">
                     </figure>
                 @endif
             </div>
