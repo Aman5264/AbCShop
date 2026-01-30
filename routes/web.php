@@ -11,6 +11,7 @@ Route::get('/', function() { return view('welcome'); })->name('home');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/cart', [ShopController::class, 'cart'])->name('cart.index');
 Route::get('/add-to-cart/{id}', [ShopController::class, 'addToCart'])->name('add.to.cart');
+Route::get('/category/{slug}', [ShopController::class, 'category'])->name('shop.category');
 Route::get('/product/{id}', [ShopController::class, 'show'])->name('shop.show');
 Route::get('/api/autocomplete', [\App\Http\Controllers\SearchController::class, 'autocomplete'])->name('api.autocomplete');
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');

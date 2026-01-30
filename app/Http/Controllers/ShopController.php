@@ -45,6 +45,24 @@ class ShopController extends Controller
         return view('shop', compact('products', 'categories', 'banners'));
     }
 
+    // 1.1 Category Page
+    public function category($slug)
+    {
+        $currentCategory = Category::where('slug', $slug)->firstOrFail();
+        
+        $query = Product::where('is_active', true)
+            ->whereHas('categories', function($q) use ($currentCategory) {
+                $q->where('categories.id', $currentCategory->id);
+            });
+
+        $products = $query->paginate(12);
+        $categories = Category::whereNull('parent_id')->with('children')->get();
+        // We typically don't show the main homepage banners on category pages, unless specified.
+        $banners = collect(); 
+
+        return view('shop', compact('products', 'categories', 'banners', 'currentCategory'));
+    }
+
     // 1.5 Product Details
     public function show($id)
     {

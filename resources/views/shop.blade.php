@@ -61,6 +61,26 @@
             @endforeach
         </div>
     </div>
+    @elseif(isset($currentCategory))
+    <!-- Category Hero -->
+    <div class="relative bg-gray-900 h-[300px] overflow-hidden">
+        <div class="absolute inset-0">
+            @if($currentCategory->image)
+                <img src="{{ Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image) }}" 
+                     alt="{{ $currentCategory->name }}" class="w-full h-full object-cover opacity-60">
+            @else
+                <div class="w-full h-full bg-gray-800 opacity-60"></div>
+            @endif
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center text-white px-4">
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight mb-4 leading-tight">{{ $currentCategory->name }}</h1>
+                @if($currentCategory->description)
+                <p class="text-lg sm:text-xl md:text-2xl font-light text-gray-100 max-w-2xl mx-auto">{{ $currentCategory->description }}</p>
+                @endif
+            </div>
+        </div>
+    </div>
     @elseif(!request()->has('category') && !request()->has('search'))
     <!-- Fallback Static Hero -->
     <div class="relative bg-gray-900 h-[500px] overflow-hidden">
@@ -92,7 +112,7 @@
                     <span class="text-sm font-medium text-gray-700 group-hover:text-accent">View All</span>
                 </a>
                 @foreach($categories as $category)
-                <a href="{{ route('shop.index', ['category' => $category->slug]) }}" class="flex flex-col items-center min-w-[100px] group cursor-pointer text-center">
+                <a href="{{ route('shop.category', $category->slug) }}" class="flex flex-col items-center min-w-[100px] group cursor-pointer text-center">
                     <div class="w-20 h-20 rounded-full bg-gray-100 overflow-hidden mb-3 group-hover:ring-2 ring-accent transition">
                         @if($category->image)
                              <img src="{{ Str::startsWith($category->image, 'http') ? $category->image : Storage::url($category->image) }}" class="w-full h-full object-cover">
@@ -126,7 +146,7 @@
                             </li>
                             @foreach($categories as $cat)
                                 <li>
-                                    <a href="{{ route('shop.index', ['category' => $cat->slug]) }}" class="{{ request('category') == $cat->slug ? 'text-accent font-bold' : 'hover:text-gray-900' }}">
+                                    <a href="{{ route('shop.category', $cat->slug) }}" class="{{ (isset($currentCategory) && $currentCategory->id == $cat->id) ? 'text-accent font-bold' : 'hover:text-gray-900' }}">
                                         {{ $cat->name }}
                                     </a>
                                 </li>
