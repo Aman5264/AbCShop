@@ -62,7 +62,7 @@
     </div>
     @else
     <!-- Fallback Static Hero -->
-    <div class="relative bg-gray-900 h-[500px] overflow-hidden">
+    <div class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
                  alt="Hero" class="w-full h-full object-cover opacity-60">
