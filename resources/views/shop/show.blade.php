@@ -10,7 +10,7 @@
 
             <div class="lg:grid lg:grid-cols-2 lg:gap-x-12 lg:items-start" x-data="{ qty: 1 }">
                 <!-- Image Gallery -->
-                <div class="flex flex-col" x-data="{ activeImage: '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}', showVideo: false }">
+                <div class="flex flex-col w-full lg:max-w-md lg:mx-auto" x-data="{ activeImage: '{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}', showVideo: false }">
                     <!-- Main Display -->
                     <div class="aspect-[4/5] w-full bg-white rounded-2xl overflow-hidden border border-gray-100 relative shadow-sm group">
                         <template x-if="!showVideo">
