@@ -4,7 +4,7 @@
     @if($banners->isNotEmpty())
     <div x-data="{ activeSlide: 0, slides: {{ $banners->count() }}, interval: null }" 
          x-init="interval = setInterval(() => { activeSlide = activeSlide === slides - 1 ? 0 : activeSlide + 1 }, 5000)"
-         class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden group">
+         class="relative bg-gray-900 aspect-[3/4] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden group">
         
         <!-- Slides -->
         @foreach($banners as $index => $banner)
@@ -69,7 +69,7 @@
     </div>
     @elseif(isset($currentCategory))
     <!-- Category Hero -->
-    <div class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+    <div class="relative bg-gray-900 aspect-[3/4] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
         <div class="absolute inset-0">
             @if($currentCategory->image)
                 <!-- Desktop Image -->
@@ -94,7 +94,7 @@
     </div>
     @elseif(!request()->has('category') && !request()->has('search'))
     <!-- Fallback Static Hero -->
-    <div class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
+    <div class="relative bg-gray-900 aspect-[3/4] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
                  alt="Hero" class="w-full h-full object-cover opacity-60">

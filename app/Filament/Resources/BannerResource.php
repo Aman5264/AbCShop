@@ -55,11 +55,11 @@ class BannerResource extends Resource
                                     ->directory('banners')
                                     ->required(),
                                 \Filament\Forms\Components\FileUpload::make('mobile_image_url')
-                                    ->label('Mobile Image (4:3 Ratio)')
+                                    ->label('Mobile Image (3:4 Ratio)')
                                     ->image()
                                     ->disk('public')
                                     ->directory('banners')
-                                    ->helperText('Upload a taller image optimized for mobile devices.'),
+                                    ->helperText('Upload a taller image (Portrait 3:4) optimized for mobile devices.'),
                             ]),
                     ])
             ]);
