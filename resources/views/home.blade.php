@@ -129,47 +129,71 @@
         
         <div class="flex overflow-x-auto gap-4 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide snap-x snap-mandatory">
             @forelse($featuredProducts as $product)
-                <div class="group relative flex flex-col flex-none w-[200px] sm:w-[320px] snap-center">
-                    <!-- Image Container -->
-                    <div class="aspect-[3/4] w-full overflow-hidden rounded-2xl bg-gray-100 relative mb-4">
-                        <!-- Bestseller Badge -->
-                        <div class="absolute top-3 left-3 z-10">
-                            <span class="bg-black text-white text-[10px] font-bold px-2 py-1 rounded-sm tracking-wider uppercase">Bestseller</span>
-                        </div>
+                <div class="group relative flex flex-col flex-none w-[200px] sm:w-[320px] snap-center bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                    
+                    <!-- Bestseller Badge (Logic or Static) -->
+                    <div class="absolute top-3 left-0 z-20">
+                        <span class="bg-black/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-r-sm tracking-wider uppercase">Bestseller</span>
+                    </div>
 
+                    <!-- Image Container -->
+                    <div class="aspect-[3/4] w-full overflow-hidden bg-gray-100 relative">
                         <a href="{{ route('shop.show', $product->id) }}">
                             <img src="{{ Str::startsWith($product->image_url, 'http') ? $product->image_url : Storage::url($product->image_url) }}" 
                                  alt="{{ $product->name }}" 
-                                 class="h-full w-full object-cover object-center group-hover:scale-105 transition duration-500 ease-in-out"
+                                 class="h-full w-full object-cover object-center group-hover:scale-110 transition duration-700 ease-in-out"
                                  loading="lazy">
                         </a>
                         
-                        <!-- Quick Add Button -->
-                        <div class="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
-                            <a href="{{ route('add.to.cart', $product->id) }}" class="bg-white text-black p-3 rounded-full shadow-xl hover:bg-black hover:text-white transition transform hover:scale-110 flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                                </svg>
-                            </a>
-                        </div>
+                         <!-- Bottom Left Icon (Similar/Copy) -->
+                        <button class="absolute bottom-3 left-3 bg-white/90 backdrop-blur text-gray-700 p-2 rounded-lg shadow-sm hover:bg-white transition opacity-90 hover:opacity-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5" />
+                            </svg>
+                        </button>
+
+                        <!-- Bottom Right Wishlist Pill -->
+                        <button class="absolute bottom-3 right-3 flex items-center gap-1 bg-white/90 backdrop-blur text-gray-700 px-2 py-1.5 rounded-full shadow-sm hover:bg-white transition opacity-90 hover:opacity-100">
+                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                            </svg>
+                            <span class="text-xs font-bold">120</span>
+                        </button>
                     </div>
 
                     <!-- Details -->
-                    <div class="flex flex-col px-1">
-                        <p class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-1">{{ $product->brand ?? 'ABC PREMIUM' }}</p>
-                        <h3 class="text-base font-medium text-gray-900 mb-1 truncate">
-                            <a href="{{ route('shop.show', $product->id) }}">
+                    <div class="p-4 flex flex-col flex-1">
+                         <!-- Brand -->
+                        <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">{{ $product->brand ?? 'ABC BRAND' }}</h4>
+
+                        <h3 class="text-sm font-medium text-gray-900 mb-1 leading-tight line-clamp-2">
+                            <a href="{{ route('shop.show', $product->id) }}" class="hover:text-primary transition-colors">
                                 {{ $product->name }}
                             </a>
                         </h3>
-                         <p class="text-sm text-gray-500 mb-2 truncate">{{ $product->description ?? 'Premium quality comfort' }}</p>
+
+                         <!-- Stars -->
+                        <div class="flex items-center gap-0.5 mb-2">
+                            @for($i=0; $i<5; $i++)
+                                <svg class="w-3 h-3 text-yellow-500 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            @endfor
+                            <span class="text-xs text-gray-400 ml-1">(12)</span>
+                        </div>
                         
-                        <div class="mt-auto flex items-center gap-2">
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-1">
+                               @if($product->is_on_sale)
+                                    <span class="text-base font-bold text-gray-900">₹{{ number_format($product->sale_price, 0) }}</span>
+                                    <span class="text-xs text-gray-400 line-through">₹{{ number_format($product->price, 0) }}</span>
+                                    <span class="text-xs font-bold text-green-600">
+                                        {{ round((($product->price - $product->sale_price) / $product->price) * 100) }}% off
+                                    </span>
+                                @else
+                                    <span class="text-base font-bold text-gray-900">₹{{ number_format($product->price, 0) }}</span>
+                                @endif
+                            </div>
                             @if($product->is_on_sale)
-                                <p class="text-lg font-bold text-black">₹{{ number_format($product->sale_price, 2) }}</p>
-                                <p class="text-sm text-gray-400 line-through">₹{{ number_format($product->price, 2) }}</p>
-                            @else
-                                <p class="text-lg font-bold text-black">₹{{ number_format($product->price, 2) }}</p>
+                                <p class="text-[10px] font-medium text-green-700">Offer Price ₹{{ number_format($product->sale_price, 0) }}</p>
                             @endif
                         </div>
                     </div>
