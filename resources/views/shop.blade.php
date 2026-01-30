@@ -63,7 +63,7 @@
     </div>
     @elseif(isset($currentCategory))
     <!-- Category Hero -->
-    <div class="relative bg-gray-900 h-[300px] overflow-hidden">
+    <div class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
         <div class="absolute inset-0">
             @if($currentCategory->image)
                 <img src="{{ Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image) }}" 
