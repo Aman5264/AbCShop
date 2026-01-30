@@ -7,7 +7,7 @@ use App\Models\Product;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'slug', 'description', 'parent_id', 'image'];
+    protected $fillable = ['name', 'slug', 'description', 'parent_id', 'image', 'mobile_image'];
 
     public function parent()
     {

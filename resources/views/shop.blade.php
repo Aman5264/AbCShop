@@ -17,9 +17,15 @@
              x-transition:leave-end="opacity-0 scale-95"
              class="absolute inset-0 w-full h-full">
             
+            <!-- Desktop Image -->
             <img src="{{ Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url) }}" 
                  alt="{{ $banner->title }}" 
-                 class="w-full h-full object-cover">
+                 class="hidden md:block w-full h-full object-cover">
+
+            <!-- Mobile Image -->
+            <img src="{{ $banner->mobile_image_url ? (Str::startsWith($banner->mobile_image_url, 'http') ? $banner->mobile_image_url : Storage::url($banner->mobile_image_url)) : (Str::startsWith($banner->image_url, 'http') ? $banner->image_url : Storage::url($banner->image_url)) }}" 
+                 alt="{{ $banner->title }}" 
+                 class="block md:hidden w-full h-full object-cover">
             
             <!-- Overlay & Content -->
             <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
@@ -66,8 +72,13 @@
     <div class="relative bg-gray-900 aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] overflow-hidden">
         <div class="absolute inset-0">
             @if($currentCategory->image)
+                <!-- Desktop Image -->
                 <img src="{{ Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image) }}" 
-                     alt="{{ $currentCategory->name }}" class="w-full h-full object-cover opacity-60">
+                     alt="{{ $currentCategory->name }}" class="hidden md:block w-full h-full object-cover opacity-60">
+
+                <!-- Mobile Image -->
+                <img src="{{ $currentCategory->mobile_image ? (Str::startsWith($currentCategory->mobile_image, 'http') ? $currentCategory->mobile_image : Storage::url($currentCategory->mobile_image)) : (Str::startsWith($currentCategory->image, 'http') ? $currentCategory->image : Storage::url($currentCategory->image)) }}" 
+                     alt="{{ $currentCategory->name }}" class="block md:hidden w-full h-full object-cover opacity-60">
             @else
                 <div class="w-full h-full bg-gray-800 opacity-60"></div>
             @endif

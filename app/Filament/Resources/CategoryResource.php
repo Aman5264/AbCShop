@@ -51,8 +51,14 @@ class CategoryResource extends Resource
                             ->searchable()
                             ->placeholder('None (Top Level)'),
                         Forms\Components\FileUpload::make('image')
+                            ->label('Desktop Image')
                             ->image()
                             ->directory('categories'),
+                        Forms\Components\FileUpload::make('mobile_image')
+                            ->label('Mobile Image')
+                            ->image()
+                            ->directory('categories')
+                            ->helperText('Optional. Taller version for mobile views.'),
                         Forms\Components\Textarea::make('description')
                             ->maxLength(65535)
                             ->columnSpanFull(),

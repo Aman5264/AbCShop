@@ -49,11 +49,17 @@ class BannerResource extends Resource
                         \Filament\Forms\Components\Section::make('Image')
                             ->schema([
                                 \Filament\Forms\Components\FileUpload::make('image_url')
-                                    ->label('Banner Image')
+                                    ->label('Desktop Image')
                                     ->image()
                                     ->disk('public')
                                     ->directory('banners')
                                     ->required(),
+                                \Filament\Forms\Components\FileUpload::make('mobile_image_url')
+                                    ->label('Mobile Image (4:3 Ratio)')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('banners')
+                                    ->helperText('Upload a taller image optimized for mobile devices.'),
                             ]),
                     ])
             ]);
