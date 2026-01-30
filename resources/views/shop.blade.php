@@ -114,19 +114,20 @@
     @endif
 
     <!-- Categories Rail -->
+    @if(!isset($currentCategory))
     <div class="bg-white py-12 border-b border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl font-bold text-primary mb-8">Shop by Category</h2>
             <div class="flex gap-8 overflow-x-auto pb-4 scrollbar-hide">
                 <a href="{{ route('shop.index') }}" class="flex flex-col items-center min-w-[100px] group cursor-pointer text-center">
-                    <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-3 group-hover:ring-2 ring-accent transition">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gray-100 flex items-center justify-center mb-3 group-hover:ring-2 ring-accent transition">
                         <span class="text-gray-500 font-medium">All</span>
                     </div>
                     <span class="text-sm font-medium text-gray-700 group-hover:text-accent">View All</span>
                 </a>
                 @foreach($categories as $category)
                 <a href="{{ route('shop.category', $category->slug) }}" class="flex flex-col items-center min-w-[100px] group cursor-pointer text-center">
-                    <div class="w-20 h-20 rounded-full bg-gray-100 overflow-hidden mb-3 group-hover:ring-2 ring-accent transition">
+                    <div class="w-14 h-14 sm:w-20 sm:h-20 rounded-full bg-gray-100 overflow-hidden mb-3 group-hover:ring-2 ring-accent transition">
                         @if($category->image)
                              <img src="{{ Str::startsWith($category->image, 'http') ? $category->image : Storage::url($category->image) }}" class="w-full h-full object-cover">
                         @else
@@ -142,6 +143,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <!-- Main Content (PLP) -->
     <div id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -192,15 +194,7 @@
                             Trending Now
                         @endif
                     </h2>
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm text-gray-500">Sort by:</span>
-                        <select class="text-sm border-none bg-transparent font-medium text-gray-900 focus:ring-0 cursor-pointer">
-                            <option>Popularity</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                            <option>Newest</option>
-                        </select>
-                    </div>
+                    <!-- Sorting Removed -->
                 </div>
 
                 <!-- Grid -->
