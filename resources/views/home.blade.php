@@ -129,7 +129,7 @@
         
         <div class="flex overflow-x-auto gap-4 pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide snap-x snap-mandatory">
             @forelse($featuredProducts as $product)
-                <div class="group relative flex flex-col flex-none w-[280px] sm:w-[320px] snap-center">
+                <div class="group relative flex flex-col flex-none w-[200px] sm:w-[320px] snap-center">
                     <!-- Image Container -->
                     <div class="aspect-[3/4] w-full overflow-hidden rounded-2xl bg-gray-100 relative mb-4">
                         <!-- Bestseller Badge -->
